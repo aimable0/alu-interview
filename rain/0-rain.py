@@ -1,20 +1,20 @@
 #!/usr/bin/python3
-"""Minimum Operations"""
-import math
+"""create an algorithm for calculating the rain"""
 
 
-def minOperations(n):
-    """Minimum Operations"""
-    if n <= 1:
+def rain(walls):
+    """Calculate how much water will be retained after it rains."""
+    if not walls or len(walls) < 3:
         return 0
 
-    operations = 0
-    for i in range(2, int(math.sqrt(abs(n))) + 1):
-        while n % i == 0:
-            operations += i
-            n //= i
+    water = 0
+    for i in range(1, len(walls) - 1):
+        left = walls[i]
+        for j in range(i):
+            left = max(left, walls[j])
+        right = walls[i]
+        for j in range(i + 1, len(walls)):
+            right = max(right, walls[j])
+        water += min(left, right) - walls[i]
 
-    if n > 1:
-        operations += n
-
-    return operations
+    return water
